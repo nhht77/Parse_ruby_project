@@ -25,8 +25,8 @@ def getTargetsPath(Ruby_Files):
     
 
 def createList_v1(argv, Path):
-    name = os.path.basename(sys.argv[1])
+    Project_Name = os.path.basename(sys.argv[1])
     
-    with open(name + ".list", "w+") as file:
+    with open(Project_Name + ".list", "w+") as file:
         for p in Path:
             file.write(p + "\n")
