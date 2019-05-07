@@ -1,21 +1,11 @@
 import os, sys
-from utils import getTargetPath
+from utils import (getTargetPath, getRubyFiles,
+                   getTargetsPath, createList_v1)
 
-Ruby_Files = []
-Path       = []
+Ruby_Files = getRubyFiles(sys.argv[1])
+Path       = getTargetsPath(Ruby_Files)
 
-for root, dirs, files in os.walk(sys.argv[1]):
-    for file in files:
-        if file.endswith('.rb') or file.endswith('.ru'):
-            f = os.path.join(root, file)
-            Ruby_Files.append(f)
-            
-for rb in Ruby_Files:
-   path = getTargetPath(rb)
-   Path.append(path)
+createList_v1(sys.argv[1], Path)
 
-name = os.path.basename(sys.argv[1])
 
-with open(name + ".list", "w+") as file:
-    for p in Path:
-        file.write(p + "\n")
+
