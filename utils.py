@@ -20,9 +20,33 @@ def getTargetsPath(Ruby_Files):
 
     for rb in Ruby_Files:
         path = getTargetPath(rb)
-        Path.append(path)
+        Path.append(path[1:])
     return Path
-    
+
+def getDev(Path):
+    dev = dict()
+
+    for p in Path:
+        dev[p]=[]
+   
+    for p in Path:
+        lines = [line.rstrip('\n') for line in open(p)]
+        for line in lines:
+            if("require" in line):
+                dev[p].append(line.replace("require ", ""))
+    return dev
+
+def getValidDev(Path, dev, kw1, kw2):
+    newDev = dict()
+
+    for p in Path:
+        newDev[p]=[]
+
+    for key, value in dev.items():
+        for i in value:
+            newDev[key].append(i.replace(kw1, kw2))
+
+    return newDev
 
 def createList_v1(argv, Path):
     Project_Name = os.path.basename(sys.argv[1])

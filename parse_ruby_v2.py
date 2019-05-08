@@ -1,27 +1,26 @@
 import os, sys
-from utils import (getTargetPath, getRubyFiles,
-                   getTargetsPath, createList_v1)
+from utils import (getTargetPath, getRubyFiles, getTargetsPath, createList_v1, 
+                   getValidDev, getDev)
 
 Ruby_Files = getRubyFiles(sys.argv[1])
 Path       = getTargetsPath(Ruby_Files)
-Path       = [p[1:] for p in Path]
 
-# Return the require files
-dev = []
-for p in Path:
-    lines = [line.rstrip('\n') for line in open(p)]
-    for line in lines:
-        if("require" in line):
-            dev.append(line.replace("require ", ""))
+# Return the dependency files
+dev = getDev(Path)
 
-newDev = [] 
-for d in dev:
-    newDev.append(d.replace("'", ""))
+# Formatting the file
+newDev = getValidDev(Path, dev, "'", "")
+validDev = getValidDev(Path, newDev, "/", "\\")
 
-str = newDev[0].replace("/", "\\")
-print(str.replace("\"", ""))
+str = validDev['C:/Users/ASUS/Desktop/Parse_ruby_project/omniauth-twitter/spec/spec_helper.rb'][5]
+print(str)
 
+# return the absolute root of the dependency file
 for root, dirs, files in os.walk(sys.argv[1]):
+        f = None
         for file in files:
-            if str.replace("\"", "") in os.path.join(root, file):
-                print(file)
+            if str in os.path.join(root, file):
+                f = os.path.join(root, file)
+            else: 
+                f = False
+        print(f)
