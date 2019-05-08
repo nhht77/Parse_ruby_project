@@ -44,7 +44,7 @@ def getValidDev(Path, dev, kw1, kw2):
             newDev[key].append(i.replace(kw1, kw2))
     return newDev
 
-def getDevPath(argv, dev):
+def createInternalDevList(argv, dev):
     list = []
     for root, dirs, files in os.walk(argv):
         f = None
@@ -54,11 +54,23 @@ def getDevPath(argv, dev):
                     if val in os.path.join(root, file):
                         f = os.path.join(root, file)
                         list.append("/"+key+":/"+f.replace("\\", "/")+":required_internal")
-    createList_v1(argv, list)
+    createList_v1(argv, list, "internal_deps")
 
-def createList_v1(argv, Path):
+def createExternalDevList(argv, dev):
+    list = []
+    for root, dirs, files in os.walk(argv):
+        f = None
+        for file in files:
+            for key, value in dev.items():
+                for val in value:
+                    if val not in os.path.join(root, file):
+                        print(val.replace("\\", "/"))
+                        print(key)
+                        list.append("/" + key + ":/External​/" + val.replace("\\", "/") + ":required_external")
+    createList_v1(argv, list, "external_deps")
+
+def createList_v1(argv, Path, dev_type):
     Project_Name = os.path.basename(sys.argv[1])
-    
-    with open(Project_Name + "_internal_deps.list", "w+") as file:
+    with open(Project_Name + "_" + dev_type + ".list", "w+", encoding="utf-8") as file:
         for p in Path:
             file.write(p + "\n")
