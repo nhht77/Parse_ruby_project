@@ -17,7 +17,6 @@ def getRubyFiles(argv):
 
 def getTargetsPath(Ruby_Files):
     Path = []
-
     for rb in Ruby_Files:
         path = getTargetPath(rb)
         Path.append(path[1:])
@@ -25,7 +24,6 @@ def getTargetsPath(Ruby_Files):
 
 def getDev(Path):
     dev = dict()
-
     for p in Path:
         dev[p]=[]
    
@@ -38,15 +36,26 @@ def getDev(Path):
 
 def getValidDev(Path, dev, kw1, kw2):
     newDev = dict()
-
     for p in Path:
         newDev[p]=[]
 
     for key, value in dev.items():
         for i in value:
             newDev[key].append(i.replace(kw1, kw2))
-
     return newDev
+
+def getDevPath(argv, dev):
+    for root, dirs, files in os.walk(argv):
+        f = None
+        for file in files:
+            for key, value in dev.items():
+                for idx, val in enumerate(value):
+                    if val in os.path.join(root, file):
+                        f = os.path.join(root, file)
+                        dev[key][idx] = f
+                    else: 
+                        f = False
+    return dev
 
 def createList_v1(argv, Path):
     Project_Name = os.path.basename(sys.argv[1])
