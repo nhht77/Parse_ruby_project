@@ -13,10 +13,8 @@ newDev = getValidDev(Path, dev, "'", "")
 validDev = getValidDev(Path, newDev, "/", "\\")
 
 str = validDev['C:/Users/ASUS/Desktop/Parse_ruby_project/omniauth-twitter/lib/omniauth-twitter.rb'][1].replace("\"", "")
-print(validDev)
-
-print("\n" * 3)
 
 # return the absolute root of the dependency file
-validDev = getDevPath(sys.argv[1], validDev)
+# validDev = 
+getDevPath(sys.argv[1], validDev)
 

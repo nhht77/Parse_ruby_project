@@ -45,6 +45,7 @@ def getValidDev(Path, dev, kw1, kw2):
     return newDev
 
 def getDevPath(argv, dev):
+    list = []
     for root, dirs, files in os.walk(argv):
         f = None
         for file in files:
@@ -52,14 +53,12 @@ def getDevPath(argv, dev):
                 for idx, val in enumerate(value):
                     if val in os.path.join(root, file):
                         f = os.path.join(root, file)
-                        dev[key][idx] = f
-                    else: 
-                        f = False
-    return dev
+                        list.append("/"+key+":/"+f.replace("\\", "/")+":required_internal")
+    createList_v1(argv, list)
 
 def createList_v1(argv, Path):
     Project_Name = os.path.basename(sys.argv[1])
     
-    with open(Project_Name + ".list", "w+") as file:
+    with open(Project_Name + "_internal_deps.list", "w+") as file:
         for p in Path:
             file.write(p + "\n")
