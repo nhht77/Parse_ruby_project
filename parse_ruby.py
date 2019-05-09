@@ -5,7 +5,7 @@ from utils import (getTargetPath, getRubyFiles, getTargetsPath, getValidDev,
 Ruby_Files = getRubyFiles(sys.argv[1])
 Path       = getTargetsPath(Ruby_Files)
 
-# Return the dependency files
+# Get the dependency files of each ruby file
 dev = getDev(Path)
 
 # Formatting the file
@@ -15,4 +15,3 @@ validDev = getValidDev(Path, newDev, "/", "\\")
 # return the absolute root of the dependency file
 createInternalDevList(sys.argv[1], validDev)
 createExternalDevList(sys.argv[1], validDev)
-
