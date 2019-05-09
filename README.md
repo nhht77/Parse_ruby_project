@@ -18,5 +18,22 @@ Once done, your program will output the following files:
 - sample-ruby-project_external_deps.list 
 ```   
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+## A typical top-level directory layout
+
+    .
+    ├── parse_ruby.py                  
+    ├── utils.py
+    └── README.md
+
+
+> `parse_ruby.py`: main python file to run the application
+> `utils.py`: utils python file contains all the core features to run the application
+
+
+## App Info
+
+### Author
+Trung Nguyen
+
+### License
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/) 
