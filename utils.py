@@ -3,6 +3,14 @@ import os, sys
 # INPUT   : Ruby file
 # OUTPUT  : Absolute source path of a ruby file
 # PURPOSE : Return a absolute src path of a ruby file
+def getProjectPath(sys):
+    if(len(sys.argv) < 2 or len(sys.argv[1]) == 0):
+        raise ValueError("Please enter the project path.")
+    return sys.argv[1]
+
+# INPUT   : Ruby file
+# OUTPUT  : Absolute source path of a ruby file
+# PURPOSE : Return a absolute src path of a ruby file
 def getTargetPath(p):
     return ("/" + os.path.realpath(p).replace("\\", "/"))
 

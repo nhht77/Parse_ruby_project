@@ -1,17 +1,22 @@
 import os, sys
 from utils import (getTargetPath, getRubyFiles, getTargetsPath, getValidDev,
-                   getDev, createInternalDevList, createExternalDevList)
+                   getDev, createInternalDevList, createExternalDevList, getProjectPath)
 
-Ruby_Files = getRubyFiles(sys.argv[1])
-Path       = getTargetsPath(Ruby_Files)
+project_path = getProjectPath(sys)
 
-# Get the dependency files of each ruby file
+# Get all ruby files from the project path in an array
+Ruby_Files = getRubyFiles(project_path)
+
+# Get the absolute target path of each ruby file in an array
+Path = getTargetsPath(Ruby_Files)
+
+# Get the dependency files of each ruby file as a dictionary
 dev = getDev(Path)
 
-# Formatting the file
+# Formatting the dependency file
 newDev = getValidDev(Path, dev, "'", "")
 validDev = getValidDev(Path, newDev, "/", "\\")
 
-# return the absolute root of the dependency file
+# creating the list of internal and external file
 createInternalDevList(sys.argv[1], validDev)
 createExternalDevList(sys.argv[1], validDev)
