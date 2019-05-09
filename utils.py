@@ -24,11 +24,7 @@ def getRubyFiles(argv):
 # OUTPUT : Array of absolute path to the ruby files
 # PURPOSE: Return an array of absolute path of each ruby file in the received directory
 def getTargetsPath(Ruby_Files):
-    Path = []
-    for rb in Ruby_Files:
-        path = getTargetPath(rb)
-        Path.append(path[1:])
-    return Path
+    return [getTargetPath(rb)[1:] for rb in Ruby_Files]
 
 # INPUT  : An array of absolute path of each ruby files 
 # OUTPUT : a dictionary contains absolute ruby files and dependency that belongs to the files
@@ -40,9 +36,7 @@ def getDev(Path):
    
     for p in Path:
         lines = [line.rstrip('\n') for line in open(p)]
-        for line in lines:
-            if("require" in line):
-                dev[p].append(line.replace("require ", ""))
+        dev[p] = [ line.replace("require ", "") for line in lines if ("require" in line)]  
     return dev
 
 # INPUT  : Array of Ruby files, dictionary of ruby file and dependency, invalid keyword to remove, valid keyword to replace  
@@ -54,8 +48,7 @@ def getValidDev(Path, dev, kw1, kw2):
         newDev[p]=[]
 
     for key, value in dev.items():
-        for i in value:
-            newDev[key].append(i.replace(kw1, kw2))
+        newDev[key] = [i.replace(kw1, kw2) for i in value]  
     return newDev
 
 # INPUT  : PATH argv from the CMD, dictionary of ruby files and an array of dependency belongs to each ruby files
@@ -64,10 +57,10 @@ def getValidDev(Path, dev, kw1, kw2):
 def createInternalDevList(argv, dev):
     list = []
     for root, dirs, files in os.walk(argv):
-        f = None
         for file in files:
+            f = os.path.join(root, file)
             for key, value in dev.items():
-                for idx, val in enumerate(value):
+                for val in value:
                     if val in os.path.join(root, file):
                         f = os.path.join(root, file)
                         list.append("/"+key+":/"+f.replace("\\", "/")+":required_internal")
