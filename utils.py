@@ -4,9 +4,7 @@ import os, sys
 # OUTPUT  : Absolute source path of a ruby file
 # PURPOSE : Return a absolute src path of a ruby file
 def getTargetPath(p):
-    data = os.path.realpath(p)
-    target = ("/" + data.replace("\\", "/"))
-    return target
+    return ("/" + os.path.realpath(p).replace("\\", "/"))
 
 # INPUT  : PATH in CMD 
 # OUTPUT : Array of ruby files
